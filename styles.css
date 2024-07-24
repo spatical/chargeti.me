@@ -1,41 +1,117 @@
+/* Chargeti.me styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     background-color: #f5f5f5;
 }
-
 .container {
-    text-align: center;
-    background-color: #ffffff;
+    max-width: 400px;
+    width: 100%;
     padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
-#inch-calculator-icwh {
+h2 {
+    text-align: center;
+    color: #333;
+}
+form {
+    display: grid;
+    grid-gap: 10px;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+    width: calc(100% - 200px); 
+}
+.input-wrapper {
+    display: flex;
+    align-items: center;
     margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
+}
+.batteryCapacityLabel{
+    display: block;
+    width: calc(100% - 200px); 
+}
+.batteryCapacityLabel label{
+    width: 100%;
+}
+input {
+    width: 150px; /* Reduced width to make space for symbols */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px; /* Adjusted border-radius for a seamless look */
+    box-sizing: border-box;
 }
 
-#inch-calculator-icwf {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.symbol {
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-left: none; /* Remove left border to merge with input */
+    border-radius: 0 4px 4px 0; /* Adjusted border-radius for a seamless look */
+    white-space: nowrap; /* Prevent symbol from wrapping */
+    font-size: 13px;
 }
-
-#inch-calculator-icwi {
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
+}
+#result {
+    font-size: 20px; /* Larger font size */
+    margin-top: 20px;
+}
+.highlight {
+    font-weight: bold; /* Bold */
+    background-color: yellow; /* Highlight */
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
+}
+footer a {
+    color: #007bff;
     text-decoration: none;
-    color: #333;
-    display: flex;
-    align-items: center;
 }
-
-#inch-calculator-icwb {
-    margin-left: 10px;
+#carSelect {
+    font-size: 0.8rem; /* Smaller text */
+    padding: 5px;
+    margin: 0px;
+    border-left: 1px solid #007bff;
+    border-right: none;
+    border-top: none;
+    border-bottom: none;
+    width: 90%; 
+    color: #007bff;
+}
+@media (max-width: 600px) {
+    body {
+        padding: 0px;
+    }
+    .container {
+        width: 100%;
+        padding: 15px;
+        border-radius: 0;
+    }
 }

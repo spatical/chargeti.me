@@ -3,23 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Electric Vehicle Charging Time Calculator</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Assuming you have a CSS file for styling -->
-    <style>
-    </style>
+    <title>EV Charging Time Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        window.onload = function() {
+            calculateChargingTime(); // Call the function on page load
+            fetch('capacity.json')
+                .then(response => response.json())
+                .then(data => populateCarDropdown(data));
+        };
+        
+        function calculateChargingTime() {
+            var chargingPower = document.getElementById("chargingPower").value;
+            var batteryCapacity = document.getElementById("batteryCapacity").value;
+            var currentChargeLevel = document.getElementById("currentChargeLevel").value;
+            var targetChargeLevel = document.getElementById("targetChargeLevel").value;
+    
+            // Check if all inputs have valid values before calculating
+            if (chargingPower && batteryCapacity && currentChargeLevel && targetChargeLevel) {
+                var requiredEnergy = (batteryCapacity * (targetChargeLevel - currentChargeLevel) / 100);
+                var chargingTime = requiredEnergy / (chargingPower * 0.9); // Considering 90% efficiency
+    
+                document.getElementById("result").innerHTML = `Estimated Charging Time: <span class="highlight">${chargingTime.toFixed(2)}</span> hours`;
+            } else {
+                document.getElementById("result").innerText = ""; // Clear result if any input is invalid
+            }
+        }
+
+        function populateCarDropdown(cars) {
+            const dropdown = document.createElement('select');
+            dropdown.id = 'carSelect';
+            dropdown.innerHTML = `<option value="">Select a vehicle</option>`;
+            cars.forEach(car => {
+                dropdown.innerHTML += `<option value="${car.capacity}">${car.name}</option>`;
+            });
+
+            const batteryCapacityWrapper = document.getElementById('batteryCapacityLabel')
+            batteryCapacityWrapper.appendChild(dropdown); // Append dropdown to the battery capacity wrapper
+
+            dropdown.addEventListener('change', function() {
+                document.getElementById('batteryCapacity').value = this.value;
+                calculateChargingTime();
+            });
+        }
+    </script>
 </head>
 <body>
     <div class="container">
-        <div id="inch-calculator-icw" data-ct="electric_car_charging_time" data-cw="100%" data-ch="500" data-cv="MTE3MjE3NDg2MjI=">
-            <div id="inch-calculator-icwh">Electric Vehicle Charging Time Calculator</div>
-            <div id="inch-calculator-icwf">
-                <a id="inch-calculator-icwi" href="https://www.inchcalculator.com/electric-vehicle-charging-time-calculator/" target="_blank">
-                    <img id="inch-calculator-icwl" src="https://cdn.inchcalculator.com/e/inch-calculator-logo-tiny.png" alt="Inch Calculator Logo" width="40" height="49">
-                    <span id="inch-calculator-icwb">Inch Calculator</span>
-                </a>
+        <h2>EV Charging Time Calculator</h2>
+        <form onsubmit="event.preventDefault(); calculateChargingTime();">
+            <div class="input-wrapper">
+                <label for="chargingPower">Charging Power:</label>
+                <input type="number" id="chargingPower" step="0.1" value="19.2" required oninput="calculateChargingTime()">
+                <div class="symbol">kW</div>
             </div>
-        </div>
-        <script src="https://cdn.inchcalculator.com/e/widgets.min.js" async defer></script>
+            
+            <div class="input-wrapper">
+                <div class="batteryCapacityLabel" id="batteryCapacityLabel">
+                    <label for="batteryCapacity">Battery Capacity:</label>
+                </div> 
+                <input type="number" id="batteryCapacity" step="0.1" value="204" required oninput="calculateChargingTime()">
+                <div class="symbol">kWh</div>
+            </div>
+            
+            <div class="input-wrapper">
+                <label for="currentChargeLevel">Current Charge Level:</label>
+                <input type="number" id="currentChargeLevel" min="0" max="100" step="1" value="20" required oninput="calculateChargingTime()">
+                <div class="symbol">%</div>
+            </div>
+            
+            <div class="input-wrapper">
+                <label for="targetChargeLevel">Target Charge Level:</label>
+                <input type="number" id="targetChargeLevel" min="0" max="100" step="1" value="80" required oninput="calculateChargingTime()">
+                <div class="symbol">%</div>
+            </div>
+
+            <button type="submit">Calculate</button>
+            </form>
+        <p id="result"></p>
+
+        <p>Takes into account a charging efficiency rate of 90%.</p>
+   
     </div>
+    <footer><a href="https://chargeti.me/">chargeti.me</a></footer>
 </body>
 </html>
